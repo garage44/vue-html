@@ -1,0 +1,74 @@
+{
+  "name": "@garage44/pyrite-build",
+  "description": "Pyrite buildtool",
+  "version": "1.15.0",
+  "bin": {
+    "pyrite": "backend/app.js"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/garage44/vue-html.git"
+  },
+  "author": "Pyrite Contributors",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/garage44/vue-html/issues"
+  },
+  "scripts": {
+    "analyze": "node ./.build/cli.js build --package . --minify --metafile;esbuild-visualizer --metadata .build/meta.json --filename .build/stats.html --open",
+    "cli": "node ./.build/cli.js --package .",
+    "dev": "node ./.build/cli.js dev --package . --port 3000 --sourceMap",
+    "lint": "npm run lint:js;npm run lint:scss",
+    "lint:js": "eslint \"{code,components}/src/**/*.{js,vue}\"",
+    "lint:scss": "stylelint \"**/*.scss\""
+  },
+  "homepage": "https://github.com/garage44/vue-html#readme",
+  "devDependencies": {
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/exec": "^5.0.0",
+    "@semantic-release/git": "^9.0.1",
+    "archy": "^1.0.0",
+    "body-parser": "^1.19.0",
+    "chalk": "^5.2.0",
+    "chokidar": "^3.5.3",
+    "esbuild": "^0.17.11",
+    "esbuild-visualizer": "^0.4.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.27.4",
+    "eslint-plugin-sort-class-members": "^1.16.0",
+    "eslint-plugin-vue": "^7.20.0",
+    "express": "^4.17.1",
+    "glob": "^8.1.0",
+    "lodash": "^4.17.21",
+    "nanoid": "^4.0.0",
+    "node-notifier": "^10.0.1",
+    "nodemon": "^2.0.20",
+    "pino-pretty": "^6.0.0",
+    "postcss-html": "^1.5.0",
+    "sass": "^1.57.1",
+    "stylelint": "^14.16.1",
+    "stylelint-config-recommended": "^6.0.0",
+    "stylelint-config-recommended-scss": "^5.0.2",
+    "stylelint-config-recommended-vue": "^1.4.0",
+    "stylelint-config-standard-scss": "^3.0.0",
+    "stylelint-order": "^5.0.0",
+    "tildify": "^3.0.0",
+    "tiny-lr": "^2.0.0",
+    "yargs": "^17.7.1"
+  },
+  "dependencies": {
+    "@garage44/dotbuild": "^1.0.0",
+    "express-http-proxy": "^1.6.3",
+    "fs-extra": "^10.1.0",
+    "globby": "^12.2.0",
+    "http-proxy": "^1.18.1",
+    "node-http-proxy": "^0.2.4"
+  }
+}
