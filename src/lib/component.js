@@ -1,7 +1,4 @@
 // Source: https://github.com/yyx990803/vue-lit/blob/master/index.js
-import {app} from '@/lib/main.js'
-import {customElement, property} from 'lit/decorators.js'
-import {html, LitElement} from 'lit'
 import {render} from 'lit-html'
 import {effect, shallowReactive} from '@vue/reactivity'
 
@@ -12,8 +9,6 @@ export function defineComponent(name, propDefs, factory) {
         factory = propDefs
         propDefs = []
     }
-
-    console.log("NAME", name)
 
     customElements.define(
         name,
@@ -74,5 +69,3 @@ export const onBeforeUpdate = createLifecycleMethod('_bu')
 export const onUpdated = createLifecycleMethod('_u')
 export const onUnmounted = createLifecycleMethod('_um')
 
-export * from 'lit-html'
-export * from '@vue/reactivity'

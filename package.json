@@ -1,13 +1,7 @@
 {
-  "name": "@garage44/pyrite-build",
-  "description": "Pyrite buildtool",
+  "name": "@garage44/vue-html",
+  "description": "POC dotbuild/vue-lit config",
   "version": "1.15.0",
-  "bin": {
-    "pyrite": "backend/app.js"
-  },
-  "directories": {
-    "doc": "docs"
-  },
   "publishConfig": {
     "access": "public"
   },
@@ -16,29 +10,23 @@
     "type": "git",
     "url": "git+https://github.com/garage44/vue-html.git"
   },
-  "author": "Pyrite Contributors",
+  "author": "Jeroen van Veen",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/garage44/vue-html/issues"
   },
   "scripts": {
-    "analyze": "node ./.build/cli.js build --package . --minify --metafile;esbuild-visualizer --metadata .build/meta.json --filename .build/stats.html --open",
-    "cli": "node ./.build/cli.js --package .",
-    "dev": "node ./.build/cli.js dev --package . --port 3000 --sourceMap",
-    "lint": "npm run lint:js;npm run lint:scss",
+    "lint": "pnpm run lint:js;pnpm run lint:scss",
     "lint:js": "eslint \"{code,components}/src/**/*.{js,vue}\"",
     "lint:scss": "stylelint \"**/*.scss\""
   },
   "homepage": "https://github.com/garage44/vue-html#readme",
   "devDependencies": {
-    "@semantic-release/changelog": "^5.0.1",
-    "@semantic-release/exec": "^5.0.0",
-    "@semantic-release/git": "^9.0.1",
     "archy": "^1.0.0",
     "body-parser": "^1.19.0",
     "chalk": "^5.2.0",
     "chokidar": "^3.5.3",
-    "esbuild": "^0.17.11",
+    "esbuild": "^0.17.14",
     "esbuild-visualizer": "^0.4.0",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.27.4",
@@ -65,10 +53,14 @@
   },
   "dependencies": {
     "@garage44/dotbuild": "^1.0.0",
+    "@vue/reactivity": "^3.2.47",
+    "eventemitter3": "^5.0.0",
     "express-http-proxy": "^1.6.3",
     "fs-extra": "^10.1.0",
     "globby": "^12.2.0",
     "http-proxy": "^1.18.1",
+    "lit": "^2.7.0",
+    "lit-html": "^2.7.0",
     "node-http-proxy": "^0.2.4"
   }
 }

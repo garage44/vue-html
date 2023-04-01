@@ -50,14 +50,14 @@ export function loadTasks({settings, Task}) {
             path.join(settings.dir.assets, 'fonts', '**'),
         ]).on('change', runner.assets)
 
-        watch([path.join(settings.dir.base, 'index.html')]).on('change', runner.html)
+        watch([path.join(settings.dir.code, 'index.html')]).on('change', runner.html)
 
         watch([
             path.join(settings.dir.code, '**', '*.js'),
             path.join(settings.dir.code, '**', '*.jsx'),
         ]).on('change', runner.code)
 
-        watch([path.join(settings.dir.theme, '**', '*.scss')]).on('change', runner.stylesApp)
+        watch([path.join(settings.dir.code, 'scss', '**', '*.scss')]).on('change', runner.stylesApp)
         watch([path.join(settings.dir.components, '**', '*.scss')]).on('change', runner.stylesComponents)
     })
 
@@ -80,20 +80,19 @@ export function loadTasks({settings, Task}) {
                 entryPoints: [path.join(settings.dir.code, 'app.js')],
                 external: ['*.jpg', '*.png', '*.woff2'],
                 format: 'iife',
-                jsxFactory: 'h',
                 metafile,
                 minify,
                 outfile: path.join(settings.dir.build, `app.${settings.buildId}.js`),
-                resolveExtensions: ['.ts', '.tsx', '.js'],
+                resolveExtensions: ['.ts', '.js'],
                 sourcemap: sourceMap,
                 splitting: false,
                 target: 'es2020',
             })            
         }
         
-        await esbuildInstance.rebuild()
-        if (esbuildInstance.metafile) {
-            await fs.writeFile(path.join(settings.dir.build, 'meta.json'), JSON.stringify(esbuildInstance.metafile), 'utf8')
+        const build = await esbuildInstance.rebuild()
+        if (build.metafile) {
+            await fs.writeFile(path.join(settings.dir.build, 'meta.json'), JSON.stringify(build.metafile), 'utf8')
         }
 
         if (!incremental) esbuildInstance.dispose()
@@ -102,15 +101,15 @@ export function loadTasks({settings, Task}) {
 
     tasks.styles = new Task('styles', async function({minify = false, sourceMap = false} = {}) {
         const actions = [
-            stylesApp.start({minify, sourceMap}),
-            stylesComponents.start({minify, sourceMap}),
+            tasks.stylesApp.start({minify, sourceMap}),
+            tasks.stylesComponents.start({minify, sourceMap}),
         ]
 
         const res = await Promise.all(actions)
         return {size: res.reduce((total, num) => total + num)}
     })
 
-    const stylesApp = new Task('styles:app', async function({minify, sourceMap}) {
+    tasks.stylesApp = new Task('styles:app', async function({minify, sourceMap}) {
         let data = `@use "sass:color";@use "sass:math";`
         data += await fs.readFile(path.join(settings.dir.code, 'scss', 'app.scss'), 'utf8')
         const styles = await scss({
@@ -124,7 +123,7 @@ export function loadTasks({settings, Task}) {
         return {size: styles.length}
     })
 
-    const stylesComponents = new Task('styles:components', async function({minify, sourceMap}) {
+    tasks.stylesComponents = new Task('styles:components', async function({minify, sourceMap}) {
         let data = `@use "sass:color";@use "sass:math";`
         data += '@import "variables";'
         const componentFiles = await glob(`${path.join(settings.dir.components, '**', '*.scss')}`)
